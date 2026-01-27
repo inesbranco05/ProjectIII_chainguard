@@ -317,10 +317,6 @@ function Dashboard({ user, onLogout }) {
                 borderRadius: '8px'
               }}
             />
-            <div>
-              <h1>ChainGuard</h1>
-              <span>Multi-Chain Transaction Validator</span>
-            </div>
           </div>
         </div>
         <div className="user-info">
