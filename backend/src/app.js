@@ -18,8 +18,7 @@ const app = express();
 // Security middleware
 app.use(helmet());
 
-// CORS configuration
-// CORS configuration - PARA DEPLOY
+
 const allowedOrigins = [
   'http://localhost:3000',
   'https://chainguard-frontend-3zj5.onrender.com', 
