@@ -1,0 +1,26 @@
+services:
+  # Backend API
+  - type: web
+    name: chainguard-backend
+    env: node
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        value: https://chainguard-frontend.onrender.com
+
+  # Frontend React
+  - type: web
+    name: chainguard-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://chainguard-backend.onrender.com

@@ -6,7 +6,16 @@ const PORT = process.env.PORT || 5000;
 // Conectar à base de dados
 connectDB();
 
-app.listen(PORT, () => {
+// Iniciar servidor
+const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`API: http://localhost:${PORT}/api`);
+  console.log(`API: ${process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`}/api`);
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('SIGTERM signal received: closing HTTP server');
+  server.close(() => {
+    console.log('HTTP server closed');
+  });
 });
