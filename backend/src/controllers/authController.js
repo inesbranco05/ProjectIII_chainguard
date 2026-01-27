@@ -122,7 +122,54 @@ class AuthController {
     }
   }
 
-  // Logout 
+  // Obter perfil do utilizador
+  static async getProfile(req, res) {
+    try {
+      res.json({
+        success: true,
+        data: {
+          user: req.user,
+        },
+      });
+    } catch (error) {
+      console.error('Get profile error:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error fetching profile',
+        error: error.message,
+      });
+    }
+  }
+
+  // Atualizar perfil
+  static async updateProfile(req, res) {
+    try {
+      const updates = req.body;
+      delete updates.password; // Não permitir atualizar password aqui
+      delete updates.role; // Não permitir atualizar role
+
+      const user = await User.findByIdAndUpdate(
+        req.user._id,
+        { $set: updates },
+        { new: true, runValidators: true }
+      ).select('-password');
+
+      res.json({
+        success: true,
+        message: 'Profile updated successfully',
+        data: { user },
+      });
+    } catch (error) {
+      console.error('Update profile error:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error updating profile',
+        error: error.message,
+      });
+    }
+  }
+
+  // Logout (cliente remove token)
   static async logout(req, res) {
     try {
       res.json({
